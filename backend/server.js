@@ -1,30 +1,35 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const express = require('express')
+const express = require('express');
+const mongoose = require('mongoose');
 
-const mongoose=require('mongoose')
 
-const app=express()
+const app = express();
 
-const workoutRoutes=require('./routes/workouts')
+const workoutRoutes = require('./routes/workouts');
 
-app.use(express.json())
 
+
+app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log(req.path, req.method)
-    next()
-  })
-  
-//   // routes
-app.use('/api/workouts', workoutRoutes)
+  console.log(req.path, req.method);
+  next();
+});
 
-mongoose.connect(process.env.MONG_URI)
-.then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log('listening on port', process.env.PORT)
-    })
+// Routes
+app.use('/api/workouts', workoutRoutes);
+
+// Connect to MongoDB
+const uri = process.env.MONG_URI;
+const port = process.env.PORT || 4000;
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    app.listen(port, () => {
+      console.log('listening on port', port);
+    });
   })
   .catch((error) => {
-      console.log(error)
-  })
+    console.log(error);
+  });
