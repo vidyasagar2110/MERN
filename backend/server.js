@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.use('/api/workouts', workoutRoutes);
 
 // Connect to MongoDB
-const uri = process.env.MONG_URI;
+const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 4000;
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
